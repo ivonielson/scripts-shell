@@ -5,9 +5,9 @@ HORAINICIO=`date +%H':'%M':'%S` #HORA DO SISTEMA
 #local onde serar salvo o log do processo de backup e sincronização
 LOG=/var/log/samba/backup/$DATAINICIO-$HORAINICIO-backup-incremental.log
 #pasta origem para backup
-ORIGEM=/mnt/origem/
+ORIGEM=/bin/scripts/teste/
 #destino para o backup
-DESTINO=/mnt/destino/
+DESTINO=/bin/scripts/teste1/
 #pega o percetual de uso da particao de arquivos
 PERCENTUAL_USO_ORIGEM=`df -h /dev/sdb1 | sed -u '2!d' | awk '{print $5}' `
 
@@ -28,12 +28,27 @@ rsync -Cravzp --exclude '*.JPG' --exclude '*.jpg' --exclude '*.wma' --exclude '*
  --exclude '*.download' --exclude '*.BMP' --exclude '*.HTM' --exclude '*.XHTML' --exclude '*.CSS'  \
  $ORIGEM $DESTINO >> $LOG
 
+
+ if [ $? = 0 ]; then  #Verifica se  backup/sincronizaçao foi bem sucedida
+
 DATAFINAL=`date +%Y-%m-%d` #data do sistema
 HORAFIM=`date +%H:%M:%S`  #hora do sistema
-#pega o percentual de uso do hd de backup
-PERCENTUAL_USO_DESTINO=`df -h /dev/sdb1 | sed -u '2!d' | awk '{print $5}' `
-echo "A partição de Backup estar com $PERCENTUAL_USO_DESTINO de uso" >> $LOG
+#PERCENTUAL_USO_DESTINO=`df -h /dev/sdb1 | sed -u '2!d' | awk '{print $5}' `
+echo "A partição de Backup estar com % de uso" >> $LOG
+echo " Sincronização Finalizada em $DATAFINAL $HORAFIM " >> $LOG
+echo "|-----------------------------------------------" >> $LOG
+echo "" >> $LOG
+
+else
+
+
+DATAFINAL=`date +%Y-%m-%d` #data do sistema
+HORAFIM=`date +%H:%M:%S`  #hora do sistema
+echo "" >> $LOG
+echo "Ocorreu erro no processo de Backup/Sincronização" >> $LOG
 echo " Sincronização Finalizada em $DATAFINAL $HORAFIM " >> $LOG
 echo "|-----------------------------------------------" >> $LOG
 echo " " >> $LOG
-echo " " >> $LOG 
+echo " " >> $LOG
+
+fi
