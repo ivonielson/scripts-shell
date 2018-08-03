@@ -34,7 +34,7 @@ rsync -Cravzp --exclude '*.JPG' --exclude '*.jpg' --exclude '*.wma' --exclude '*
 DATAFINAL=`date +%Y-%m-%d` #data do sistema
 HORAFIM=`date +%H:%M:%S`  #hora do sistema
 PERCENTUAL_USO_DESTINO=`df -h /dev/sdb1 | sed -u '2!d' | awk '{print $5}' `
-echo "A partição de Backup estar com % de uso" >> $LOG
+echo "A partição de Backup estar com $PERCENTUAL_USO_DESTINO de uso" >> $LOG
 echo " Sincronização Finalizada em $DATAFINAL $HORAFIM " >> $LOG
 echo "|-----------------------------------------------" >> $LOG
 echo "" >> $LOG
